@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GE102 Module: Number Systems</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#16213a;--mute:#5b6783;--line:#d9dfec;--dec:#475569;--bin:#4f46e5;--oct:#0d9488;--hex:#d97706;--ok:#15803d;--bad:#b91c1c;--tip:#eef2ff;--font:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;--mono:ui-monospace,"Cascadia Code",Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1524;--card:#18203a;--ink:#e8ecf8;--mute:#9aa5c3;--line:#2c3758;--dec:#cbd5e1;--bin:#a5a0ff;--oct:#5eead4;--hex:#fbbf24;--ok:#4ade80;--bad:#f87171;--tip:#1f2a4d}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--font)}
+header{padding:22px 20px 14px;max-width:900px;margin:0 auto}
+header h1{margin:0;font-size:1.7rem;line-height:1.2}
+header p{margin:4px 0 0;color:var(--mute)}
+.bar{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;width:0;background:var(--bin);transition:width .4s}
+nav{max-width:900px;margin:0 auto;padding:0 20px;display:flex;gap:6px;overflow-x:auto}
+nav button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:20px;padding:6px 12px;font:inherit;font-size:.85rem;cursor:pointer}
+nav button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav button.done::after{content:" ✓";color:var(--ok)}
+nav button.on.done::after{color:var(--bg)}
+main{max-width:900px;margin:14px auto 60px;padding:0 20px}
+section{display:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+section.on{display:block}
+h2{margin:0 0 4px;font-size:1.45rem}
+.time{color:var(--mute);font-size:.9rem;margin:0 0 14px}
+h3{margin:22px 0 6px;font-size:1.1rem}
+.def,.tip{border-left:5px solid var(--bin);background:var(--tip);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.tip{border-color:var(--hex)}
+.def b:first-child,.tip b:first-child{display:block}
+.sc{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;font-size:.95rem}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:center}
+th{background:var(--bg);font-weight:600;text-align:left}
+.t td{font-family:var(--mono)}
+.b2{color:var(--bin)}.b8{color:var(--oct)}.b10{color:var(--dec)}.b16{color:var(--hex)}
+.b2,.b8,.b10,.b16{font-weight:700}
+.res{font-size:1.15rem;margin:8px 0 2px}
+.res code,code{font-family:var(--mono);background:var(--bg);padding:1px 6px;border-radius:5px}
+.chunks{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.ch{border:2px solid var(--bin);border-radius:10px;padding:6px 12px;text-align:center;font-family:var(--mono)}
+.ch span{display:block;font-size:1.3rem;letter-spacing:.1em}
+.ch em{display:block;font-style:normal;font-weight:700;border-top:1px solid var(--line);margin-top:4px;padding-top:2px}
+.ch.o{border-color:var(--oct)}.ch.h{border-color:var(--hex)}
+.nx{display:flex;justify-content:space-between;margin-top:26px;gap:10px}
+.btn{border:0;background:var(--bin);color:#fff;border-radius:10px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer}
+@media(prefers-color-scheme:dark){.btn{color:#10142b}}
+.btn.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn:focus-visible,nav button:focus-visible,.opt:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--hex);outline-offset:2px}
+.opt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:10px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,transparent)}
+.opt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,transparent)}
+.fb{margin:10px 0;padding:10px 14px;border-radius:10px;background:var(--bg)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+input,select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.score{font-size:2.2rem;font-weight:700}
+.rv{margin:6px 0;padding:8px 12px;border-left:4px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Number Systems: Decimal, Binary, Octal and Hexadecimal</h1>
+  <p>GE102 Mathematics in the Modern World · Self-paced module · about 60 minutes</p>
+  <div class="bar" role="progressbar" aria-label="Module progress"><i id="pb"></i></div>
+</header>
+<nav id="nav" aria-label="Lessons"></nav>
+<main>
+
+<section>
+  <h2>Lesson 1: What is a number system?</h2>
+  <p class="time">8 minutes</p>
+  <p><b>By the end of this module you can:</b> name the four common number systems, convert any of them to decimal, convert decimal to any of them, and switch quickly between binary, octal and hexadecimal.</p>
+  <div class="def"><b>Definition</b>A <b>number system</b> is a way of writing numbers using a fixed set of digits. The <b>base</b> (or radix) is how many different digits it uses. Each position in a number has a <b>place value</b>, which is a power of the base.</div>
+  <div class="sc"><table>
+    <tr><th>System</th><th>Base</th><th>Digits used</th><th>Where you see it</th></tr>
+    <tr><td class="b10">Decimal</td><td>10</td><td>0 1 2 3 4 5 6 7 8 9</td><td>Everyday counting, money</td></tr>
+    <tr><td class="b2">Binary</td><td>2</td><td>0 1</td><td>Inside computers (off/on)</td></tr>
+    <tr><td class="b8">Octal</td><td>8</td><td>0 1 2 3 4 5 6 7</td><td>File permissions, older computers</td></tr>
+    <tr><td class="b16">Hexadecimal</td><td>16</td><td>0–9 and A B C D E F</td><td>Colors (#FF8800), memory addresses</td></tr>
+  </table></div>
+  <h3>You already know place value</h3>
+  <p>In decimal, the number 2025 means 2 thousands, 0 hundreds, 2 tens and 5 ones. Each place is 10 times bigger than the place on its right.</p>
+  <div class="sc" data-pv="2025,10"></div>
+  <div class="tip"><b>Big idea</b>Every number system works the same way. Only the base changes. In base 2 each place is 2 times bigger, in base 8 it is 8 times bigger, in base 16 it is 16 times bigger.</div>
+  <p><b>Notation:</b> we write the base as a small number after the value. <code>1011₂</code> is binary, <code>275₈</code> is octal, <code>2AF₁₆</code> is hexadecimal, and <code>45₁₀</code> is decimal.</p>
+</section>
+
+<section>
+  <h2>Lesson 2: Meet binary, octal and hexadecimal</h2>
+  <p class="time">8 minutes</p>
+  <div class="def"><b>Binary (base 2)</b>Uses only 0 and 1. Place values are 1, 2, 4, 8, 16, 32, …</div>
+  <div class="def" style="border-color:var(--oct)"><b>Octal (base 8)</b>Uses digits 0 to 7. Place values are 1, 8, 64, 512, …</div>
+  <div class="def" style="border-color:var(--hex)"><b>Hexadecimal (base 16)</b>Needs 16 symbols, so after 9 it uses letters: A = 10, B = 11, C = 12, D = 13, E = 14, F = 15. Place values are 1, 16, 256, 4096, …</div>
+  <h3>Counting side by side</h3>
+  <p>Notice that when a system runs out of digits, it adds a new place, just like 9 becomes 10 in decimal.</p>
+  <div class="sc" id="count"></div>
+  <div class="tip"><b>Check yourself</b>Is 28₈ a valid octal number? <i>No. The digit 8 does not exist in octal, so the largest digit is 7.</i> Is 1201₂ valid? <i>No. Binary only allows 0 and 1.</i></div>
+</section>
+
+<section>
+  <h2>Lesson 3: Any system to decimal</h2>
+  <p class="time">10 minutes</p>
+  <div class="def"><b>Method: multiply and add</b>1) Write the place values from the right: 1, base, base², … 2) Multiply each digit by its place value. 3) Add all the products. The total is the decimal value.</div>
+  <h3>Example 1: 1011₂ to decimal</h3>
+  <div class="sc" data-pv="1011,2"></div>
+  <h3>Example 2: 275₈ to decimal</h3>
+  <div class="sc" data-pv="275,8"></div>
+  <h3>Example 3: 2AF₁₆ to decimal</h3>
+  <p>Replace the letters first: A = 10 and F = 15.</p>
+  <div class="sc" data-pv="2AF,16"></div>
+  <div class="tip"><b>Tip</b>The rightmost digit always has place value 1 (because any base to the power 0 equals 1). Count places from the right, starting at power 0.</div>
+</section>
+
+<section>
+  <h2>Lesson 4: Decimal to any system</h2>
+  <p class="time">10 minutes</p>
+  <div class="def"><b>Method: repeated division</b>1) Divide the decimal number by the new base. 2) Write down the remainder. 3) Divide the quotient again. 4) Stop when the quotient is 0. 5) Read the remainders from <b>bottom to top</b>.</div>
+  <h3>Example 1: 45₁₀ to binary</h3>
+  <div class="sc" data-dv="45,2"></div>
+  <h3>Example 2: 156₁₀ to octal</h3>
+  <div class="sc" data-dv="156,8"></div>
+  <h3>Example 3: 500₁₀ to hexadecimal</h3>
+  <p>A remainder of 15 is written as F, and 10 to 15 become A to F.</p>
+  <div class="sc" data-dv="500,16"></div>
+  <div class="tip"><b>Check your answer</b>Convert back with Lesson 3. For 234₈: 2×64 + 3×8 + 4×1 = 128 + 24 + 4 = 156. It matches, so the answer is correct.</div>
+  <div class="tip" style="border-color:var(--oct)"><b>Going “back” to another system</b>To go from, say, octal to binary, you can convert to decimal first (Lesson 3), then from decimal to binary (this lesson). The next lesson shows a faster shortcut.</div>
+</section>
+
+<section>
+  <h2>Lesson 5: Shortcuts between binary, octal and hexadecimal</h2>
+  <p class="time">10 minutes</p>
+  <p>Since 8 = 2³ and 16 = 2⁴, one octal digit equals exactly <b>3 bits</b> and one hexadecimal digit equals exactly <b>4 bits</b>. No division needed.</p>
+  <h3>Binary to octal: group by 3 from the right</h3>
+  <p>Example: 101110110₂. Convert each group of 3 bits (weights 4, 2, 1).</p>
+  <div data-gp="101110110,3"></div>
+  <h3>Binary to hexadecimal: group by 4 from the right</h3>
+  <p>Example: 11010111₂. Weights in each group are 8, 4, 2, 1.</p>
+  <div data-gp="11010111,4"></div>
+  <p>If the left group is short, add zeros on the left. For 101101₂ in hex: <code>0010 1101</code> = <code>2D₁₆</code>.</p>
+  <h3>Octal to binary: expand each digit to 3 bits</h3>
+  <div data-ex="725,8"></div>
+  <h3>Hexadecimal to binary: expand each digit to 4 bits</h3>
+  <div data-ex="3C9,16"></div>
+  <h3>Octal ↔ hexadecimal: use binary as the bridge</h3>
+  <p>Example: A5₁₆ to octal. First A5₁₆ = <code>1010 0101</code>. Regroup by 3: <code>010 100 101</code> = <code>245₈</code>.</p>
+  <div class="tip"><b>Memory aid</b>Learn the 4-bit patterns for 0 to 15 from the counting table in Lesson 2. After a little practice you can convert hex and binary in your head.</div>
+</section>
+
+<section>
+  <h2>Lesson 6: Try it yourself</h2>
+  <p class="time">4 minutes</p>
+  <p>Type a number, choose its base, and see it in all four systems with the division steps. Use it to check your own work.</p>
+  <div class="row">
+    <input id="cv" placeholder="e.g. 3F" aria-label="Number" size="12">
+    <select id="cb" aria-label="Base of the number"><option value="10">Decimal (10)</option><option value="2">Binary (2)</option><option value="8">Octal (8)</option><option value="16">Hexadecimal (16)</option></select>
+    <button class="btn" id="cgo">Convert</button>
+  </div>
+  <div id="cout" aria-live="polite"></div>
+</section>
+
+<section>
+  <h2>Lesson 7: Quiz</h2>
+  <p class="time">10 minutes · 10 questions · the correct answer shows after each one</p>
+  <div id="quiz"></div>
+</section>
+
+</main>
+<script>
+const D='0123456789ABCDEF',SUB='₀₁₂₃₄₅₆₇₈₉';
+const sub=b=>String(b).split('').map(c=>SUB[c]).join('');
+const bc=b=>'b'+b;
+function pv(n,b){
+  const d=n.split(''),L=d.length,v=d.map(c=>D.indexOf(c)),w=d.map((_,i)=>Math.pow(b,L-1-i));
+  const p=v.map((x,i)=>x*w[i]),s=p.reduce((a,c)=>a+c,0);
+  return `<table class="t"><tr><th>Digit</th>${d.map(c=>`<td class="${bc(b)}">${c}</td>`).join('')}</tr>
+  <tr><th>Place value</th>${w.map((x,i)=>`<td>${b}<sup>${L-1-i}</sup> = ${x}</td>`).join('')}</tr>
+  <tr><th>Digit × place</th>${p.map((x,i)=>`<td>${v[i]} × ${w[i]} = ${x}</td>`).join('')}</tr></table>
+  <p class="res">${p.join(' + ')} = <b>${s}</b>, so <code>${n}${sub(b)} = ${s}₁₀</code></p>`;
+}
+function dv(n,b){
+  let q=n,rows=[],r=[];
+  while(q>0){const m=q%b;rows.push(`<tr><td>${q} ÷ ${b}</td><td>${Math.floor(q/b)}</td><td class="${bc(b)}">${m>9?m+' → '+D[m]:m}</td></tr>`);r.push(D[m]);q=Math.floor(q/b);}
+  return `<table class="t"><tr><th>Divide</th><th>Quotient</th><th>Remainder</th></tr>${rows.join('')}</table>
+  <p class="res">Read the remainders from bottom to top: <code>${n}₁₀ = ${r.reverse().join('')}${sub(b)}</code></p>`;
+}
+function gp(v,s){
+  const pad=v.padStart(Math.ceil(v.length/s)*s,'0'),cl=s==3?'o':'h',out=[];
+  for(let i=0;i<pad.length;i+=s){const c=pad.slice(i,i+s);out.push(`<div class="ch ${cl}"><span>${c}</span><em>${D[parseInt(c,2)]}</em></div>`)}
+  const res=out.map(x=>x.match(/<em>(.)</)[1]).join('');
+  return `<div class="chunks">${out.join('')}</div><p class="res"><code>${v}₂ = ${res}${sub(s==3?8:16)}</code></p>`;
+}
+function ex(v,b){
+  const s=b==8?3:4,out=v.split('').map(c=>`<div class="ch ${b==8?'o':'h'}"><span>${D.indexOf(c).toString(2).padStart(s,'0')}</span><em>${c}</em></div>`);
+  return `<div class="chunks">${out.join('')}</div><p class="res"><code>${v}${sub(b)} = ${v.split('').map(c=>D.indexOf(c).toString(2).padStart(s,'0')).join(' ')}₂</code></p>`;
+}
+document.querySelectorAll('[data-pv]').forEach(e=>{const[a,b]=e.dataset.pv.split(',');e.innerHTML=pv(a,+b)});
+document.querySelectorAll('[data-dv]').forEach(e=>{const[a,b]=e.dataset.dv.split(',');e.innerHTML=dv(+a,+b)});
+document.querySelectorAll('[data-gp]').forEach(e=>{const[a,b]=e.dataset.gp.split(',');e.innerHTML=gp(a,+b)});
+document.querySelectorAll('[data-ex]').forEach(e=>{const[a,b]=e.dataset.ex.split(',');e.innerHTML=ex(a,+b)});
+
+let h='<table class="t"><tr><th>Decimal</th><th>Binary</th><th>Octal</th><th>Hex</th></tr>';
+for(let i=0;i<=16;i++)h+=`<tr><td class="b10">${i}</td><td class="b2">${i.toString(2).padStart(5,'0')}</td><td class="b8">${i.toString(8)}</td><td class="b16">${i.toString(16).toUpperCase()}</td></tr>`;
+document.getElementById('count').innerHTML=h+'</table>';
+
+/* converter */
+const ok={2:/^[01]+$/,8:/^[0-7]+$/,10:/^[0-9]+$/,16:/^[0-9A-F]+$/};
+function go(){
+  const t=document.getElementById('cv').value.trim().toUpperCase(),b=+document.getElementById('cb').value,o=document.getElementById('cout');
+  if(!t){o.innerHTML='<p>Enter a number first.</p>';return}
+  if(!ok[b].test(t)){o.innerHTML=`<p class="b2">“${t}” is not valid in base ${b}. Allowed digits: ${D.slice(0,b)}.</p>`;return}
+  const n=parseInt(t,b);
+  if(n>1e9){o.innerHTML='<p>Please use a smaller number (up to 1,000,000,000 in decimal).</p>';return}
+  let s=`<div class="sc"><table class="t"><tr><th>Decimal</th><td class="b10">${n}</td></tr><tr><th>Binary</th><td class="b2">${n.toString(2)}</td></tr><tr><th>Octal</th><td class="b8">${n.toString(8)}</td></tr><tr><th>Hexadecimal</th><td class="b16">${n.toString(16).toUpperCase()}</td></tr></table></div>`;
+  if(b!=10)s+=`<h3>To decimal</h3><div class="sc">${pv(t,b)}</div>`;
+  [2,8,16].filter(x=>x!=b&&n>0).forEach(x=>{s+=`<h3>Decimal to base ${x}</h3><div class="sc">${dv(n,x)}</div>`});
+  o.innerHTML=s;
+}
+document.getElementById('cgo').onclick=go;
+document.getElementById('cv').onkeydown=e=>{if(e.key=='Enter')go()};
+
+/* quiz */
+const Q=[
+ ['Which digits are allowed in an octal number?',['0 to 7','0 to 8','0 to 9','0 and 1'],0,'Octal is base 8, so it uses 8 digits: 0, 1, 2, 3, 4, 5, 6, 7.'],
+ ['Which of these is NOT a valid binary number?',['1101','1021','0110','1000'],1,'Binary uses only 0 and 1. The digit 2 in 1021 makes it invalid.'],
+ ['In hexadecimal, what decimal value does the digit B stand for?',['10','11','12','13'],1,'A = 10, so B = 11.'],
+ ['Convert 1101₂ to decimal.',['11','12','13','15'],2,'1×8 + 1×4 + 0×2 + 1×1 = 8 + 4 + 0 + 1 = 13.'],
+ ['Convert 3F₁₆ to decimal.',['45','48','60','63'],3,'3×16 + 15×1 = 48 + 15 = 63.'],
+ ['Convert 25₁₀ to binary.',['10011','11001','11010','10101'],1,'25 ÷ 2 gives remainders 1, 0, 0, 1, 1 (bottom to top: 11001). Check: 16 + 8 + 1 = 25.'],
+ ['Convert 100₁₀ to octal.',['124','144','154','164'],1,'100 ÷ 8 = 12 r 4, then 12 ÷ 8 = 1 r 4, then 1 ÷ 8 = 0 r 1. Read upward: 144. Check: 64 + 32 + 4 = 100.'],
+ ['Convert 255₁₀ to hexadecimal.',['EF','FE','FF','F0'],2,'255 ÷ 16 = 15 r 15. Both are F, so the answer is FF. Check: 15×16 + 15 = 255.'],
+ ['Convert 110101₂ to octal using the shortcut.',['65','56','35','53'],0,'Group by 3: 110 | 101 = 6 | 5, so 65₈. (Check: 6×8 + 5 = 53₁₀ and 110101₂ = 32+16+4+1 = 53.)'],
+ ['Convert 7B₁₆ to binary.',['1110111','1011011','1111011','1101111'],2,'7 = 0111 and B = 1011. Together: 0111 1011, which is 1111011 without the leading zero.']
+];
+let qi=0,sc=0,ans=[];
+function rq(){
+  const el=document.getElementById('quiz');
+  if(qi>=Q.length){
+    const pass=sc>=7;
+    el.innerHTML=`<p class="score">${sc} / ${Q.length}</p><p>${sc==10?'Perfect score!':pass?'Great work. You understand the conversions.':'Good try. Review Lessons 3 to 5, then retake the quiz.'}</p>
+    <h3>Review</h3>${Q.map((q,i)=>`<div class="rv" style="border-color:var(${ans[i]==q[2]?'--ok':'--bad'})"><b>${i+1}. ${q[0]}</b><br>Your answer: ${q[1][ans[i]]} ${ans[i]==q[2]?'✓':'✗'}<br>Correct answer: <b>${q[1][q[2]]}</b></div>`).join('')}
+    <div class="nx"><button class="btn g" onclick="qi=0;sc=0;ans=[];rq()">Retake quiz</button></div>`;
+    save(6);return;
+  }
+  const q=Q[qi];
+  el.innerHTML=`<p><b>Question ${qi+1} of ${Q.length}</b></p><p style="font-size:1.1rem">${q[0]}</p>
+  ${q[1].map((o,i)=>`<button class="opt" data-i="${i}">${'ABCD'[i]}. ${o}</button>`).join('')}<div id="fb" aria-live="polite"></div>`;
+  el.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i;ans[qi]=i;if(i==q[2])sc++;
+    el.querySelectorAll('.opt').forEach((x,j)=>{x.disabled=true;if(j==q[2])x.classList.add('ok');else if(j==i)x.classList.add('no')});
+    document.getElementById('fb').innerHTML=`<div class="fb"><b>${i==q[2]?'Correct!':'Not quite. The correct answer is '+'ABCD'[q[2]]+'. '+q[1][q[2]]+'.'}</b><br>${q[3]}</div><div class="nx"><span></span><button class="btn" id="nq">${qi==Q.length-1?'See my score':'Next question'}</button></div>`;
+    document.getElementById('nq').onclick=()=>{qi++;rq();window.scrollTo({top:0})};
+  });
+}
+rq();
+
+/* navigation + progress */
+const S=[...document.querySelectorAll('main>section')],nav=document.getElementById('nav');
+let cur=0,seen={};
+try{seen=JSON.parse(localStorage.getItem('ge102-ns')||'{}')}catch(e){}
+function save(i){seen[i]=1;try{localStorage.setItem('ge102-ns',JSON.stringify(seen))}catch(e){}paint()}
+function paint(){
+  nav.querySelectorAll('button').forEach((b,i)=>{b.classList.toggle('on',i==cur);b.classList.toggle('done',!!seen[i])});
+  document.getElementById('pb').style.width=Math.round(Object.keys(seen).length/S.length*100)+'%';
+}
+function show(i){
+  cur=i;S.forEach((s,j)=>s.classList.toggle('on',j==i));
+  if(i<S.length-1)seen[i]=1;
+  try{localStorage.setItem('ge102-ns',JSON.stringify(seen))}catch(e){}
+  paint();window.scrollTo({top:0});
+}
+S.forEach((s,i)=>{
+  const t=s.querySelector('h2').textContent.split(': ');
+  const b=document.createElement('button');b.textContent=(i+1)+'. '+(t[1]||t[0]);b.onclick=()=>show(i);nav.appendChild(b);
+  if(i<S.length-1){
+    const d=document.createElement('div');d.className='nx';
+    d.innerHTML=`${i?'<button class="btn g">Back</button>':'<span></span>'}<button class="btn">${i==S.length-2?'Go to the quiz':'Next lesson'}</button>`;
+    const bs=d.querySelectorAll('button');
+    if(i){bs[0].onclick=()=>show(i-1);bs[1].onclick=()=>show(i+1)}else bs[0].onclick=()=>show(1);
+    s.appendChild(d);
+  }
+});
+show(0);
+</script>
+</body>
+</html>
